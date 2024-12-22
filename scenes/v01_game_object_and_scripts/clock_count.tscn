@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt5iutycyud2j"]
+
+[ext_resource type="Material" uid="uid://dyhcylqqely6x" path="res://scenes/v01_game_object_and_scripts/mat_clock_count.tres" id="1_kmxhg"]
+
+[node name="CSGBox3D" type="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.605135, -0.508235)
+material_override = ExtResource("1_kmxhg")
+size = Vector3(0.1, 0.025, 0.25)
+material = ExtResource("1_kmxhg")

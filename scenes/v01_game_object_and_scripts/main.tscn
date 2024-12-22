@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo7cx6albicts"]
+
+[ext_resource type="PackedScene" uid="uid://bo68d8c8g30a6" path="res://scenes/v01_game_object_and_scripts/clock.tscn" id="1_ouusj"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
+
+[node name="CSGCylinder3D" parent="." instance=ExtResource("1_ouusj")]
