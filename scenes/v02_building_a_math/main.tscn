@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgn28fr8f3was"]
+
+[ext_resource type="PackedScene" uid="uid://byou0v1ytacvo" path="res://scenes/v02_building_a_math/visual_function.tscn" id="1_ef5q4"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.27237, 9.55218)
+
+[node name="VisualFunction1" parent="." instance=ExtResource("1_ef5q4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+func_name = "wave"
+data_range = Vector3(-10, 10, 0.1)
+
+[node name="VisualFunction2" parent="." instance=ExtResource("1_ef5q4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.812, 7.50185, 0)
+func_name = "sin"
+data_range = Vector3(-6.28, 6.28, 0.1)
+
+[node name="VisualFunction3" parent="." instance=ExtResource("1_ef5q4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0058, 0, 0)
+func_name = "multi_wave"
+data_range = Vector3(-6.28, 6.28, 0.05)
+
+[node name="VisualFunction4" parent="." instance=ExtResource("1_ef5q4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.437, 3, 0)
+func_name = "ripple"
+data_range = Vector3(-3, 3, 0.05)
