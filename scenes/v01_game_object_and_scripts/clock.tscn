@@ -1,119 +1,143 @@
-[gd_scene load_steps=15 format=3 uid="uid://bo68d8c8g30a6"]
+[gd_scene load_steps=20 format=3 uid="uid://bo68d8c8g30a6"]
 
 [ext_resource type="Script" path="res://scenes/v01_game_object_and_scripts/Clock.cs" id="1_48b36"]
 [ext_resource type="PackedScene" uid="uid://bt5iutycyud2j" path="res://scenes/v01_game_object_and_scripts/clock_count.tscn" id="1_aqmif"]
+[ext_resource type="Material" uid="uid://dyhcylqqely6x" path="res://scenes/v01_game_object_and_scripts/mat_clock_count.tres" id="2_s0lvw"]
+[ext_resource type="Material" uid="uid://cqmpkyfivckbc" path="res://scenes/v01_game_object_and_scripts/mat_second_pointer.tres" id="3_7clcw"]
+[ext_resource type="PackedScene" uid="uid://u8gpafxj6v07" path="res://scenes/v01_game_object_and_scripts/second_pointer.tscn" id="3_ynpah"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_62pni"]
-albedo_color = Color(1, 0.647059, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u85t2"]
+albedo_color = Color(0.662745, 0.662745, 0.662745, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kmw8d"]
-albedo_color = Color(1, 1, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l4h78"]
+albedo_color = Color(0.662745, 0.662745, 0.662745, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fxm62"]
-albedo_color = Color(0, 1, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pklm0"]
+albedo_color = Color(0.439216, 0.501961, 0.564706, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fon1g"]
-albedo_color = Color(0, 1, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6388"]
+albedo_color = Color(0.662745, 0.662745, 0.662745, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6cma1"]
-albedo_color = Color(0, 0, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_odwe3"]
+albedo_color = Color(0.662745, 0.662745, 0.662745, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0s2ja"]
-albedo_color = Color(0.627451, 0.12549, 0.941176, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xtjp6"]
+albedo_color = Color(0.439216, 0.501961, 0.564706, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g56o4"]
-albedo_color = Color(0.545098, 0, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_egv12"]
+albedo_color = Color(0.662745, 0.662745, 0.662745, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_evot6"]
-albedo_color = Color(1, 0.54902, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ilopo"]
+albedo_color = Color(0.662745, 0.662745, 0.662745, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o1wqw"]
-albedo_color = Color(0.721569, 0.52549, 0.0431373, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y7hkm"]
+albedo_color = Color(0.439216, 0.501961, 0.564706, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gecr5"]
-albedo_color = Color(0, 0.392157, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_osnvt"]
+albedo_color = Color(0.662745, 0.662745, 0.662745, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u0o05"]
-albedo_color = Color(0, 0.545098, 0.545098, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rwg5d"]
+albedo_color = Color(0.662745, 0.662745, 0.662745, 1)
 metallic = 0.1
 roughness = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o043l"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o2do2"]
+albedo_color = Color(0.439216, 0.501961, 0.564706, 1)
+metallic = 0.1
+roughness = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vkhu"]
 albedo_color = Color(1, 0, 0, 1)
-metallic = 0.1
-roughness = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_inpwj"]
+albedo_color = Color(0, 0, 0, 1)
 
 [node name="CSGCylinder3D" type="CSGCylinder3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 radius = 1.0
 height = 0.1
 sides = 16
 script = ExtResource("1_48b36")
+_materialCounter = ExtResource("2_s0lvw")
+_materialPointer = ExtResource("3_7clcw")
 
 [node name="ClockCount1" parent="." instance=ExtResource("1_aqmif")]
-transform = Transform3D(0.866025, 0, -0.5, -0.320631, -0.767322, -0.555349, -0.383661, 0.641262, -0.66452, 0.4, 0.06, -0.69282)
-material = SubResource("StandardMaterial3D_62pni")
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0.4, 0.06, -0.69282)
+material = SubResource("StandardMaterial3D_u85t2")
 
 [node name="ClockCount2" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 0.69282, 0.06, -0.4)
-material = SubResource("StandardMaterial3D_kmw8d")
+material = SubResource("StandardMaterial3D_l4h78")
 
 [node name="ClockCount3" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.8, 0.06, 3.49691e-08)
-material = SubResource("StandardMaterial3D_fxm62")
+material = SubResource("StandardMaterial3D_pklm0")
 
 [node name="ClockCount4" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, 0.69282, 0.06, 0.4)
-material = SubResource("StandardMaterial3D_fon1g")
+material = SubResource("StandardMaterial3D_d6388")
 
 [node name="ClockCount5" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(-0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 0.4, 0.06, 0.69282)
-material = SubResource("StandardMaterial3D_6cma1")
+material = SubResource("StandardMaterial3D_odwe3")
 
 [node name="ClockCount6" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -6.99382e-08, 0.06, 0.8)
-material = SubResource("StandardMaterial3D_0s2ja")
+material = SubResource("StandardMaterial3D_xtjp6")
 
 [node name="ClockCount7" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, -0.4, 0.06, 0.69282)
-material = SubResource("StandardMaterial3D_g56o4")
+material = SubResource("StandardMaterial3D_egv12")
 
 [node name="ClockCount8" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, -0.69282, 0.06, 0.4)
-material = SubResource("StandardMaterial3D_evot6")
+material = SubResource("StandardMaterial3D_ilopo")
 
 [node name="ClockCount9" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(1.19249e-08, 0, 1, 0, 1, 0, -1, 0, 1.19249e-08, -0.8, 0.06, -9.5399e-09)
-material = SubResource("StandardMaterial3D_o1wqw")
+material = SubResource("StandardMaterial3D_y7hkm")
 
 [node name="ClockCount10" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, -0.69282, 0.06, -0.4)
-material = SubResource("StandardMaterial3D_gecr5")
+material = SubResource("StandardMaterial3D_osnvt")
 
 [node name="ClockCount11" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.4, 0.06, -0.69282)
-material = SubResource("StandardMaterial3D_u0o05")
+material = SubResource("StandardMaterial3D_rwg5d")
 
 [node name="ClockCount12" parent="." instance=ExtResource("1_aqmif")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -0.8)
-material = SubResource("StandardMaterial3D_o043l")
+material = SubResource("StandardMaterial3D_o2do2")
+
+[node name="SecondPointer" parent="." instance=ExtResource("3_ynpah")]
+transform = Transform3D(0.999984, 0, 0, 0, 1, 0, 0, 0, 0.999984, 0, 0.24, 0)
+material = SubResource("StandardMaterial3D_4vkhu")
+
+[node name="MinutePointer" parent="." instance=ExtResource("3_ynpah")]
+transform = Transform3D(0.999994, 0, 0, 0, 1, 0, 0, 0, 0.999994, 0, 0.12, 0)
+size = Vector3(0.03, 0.06, 0.5)
+material = SubResource("StandardMaterial3D_inpwj")
+
+[node name="HourPointer" parent="." instance=ExtResource("3_ynpah")]
+transform = Transform3D(0.999994, 0, 0, 0, 1, 0, 0, 0, 0.999994, 0, 0.18, 0)
+size = Vector3(0.03, 0.06, 0.25)
+material = SubResource("StandardMaterial3D_inpwj")

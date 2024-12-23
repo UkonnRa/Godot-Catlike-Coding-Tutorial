@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://u8gpafxj6v07"]
+
+[ext_resource type="Material" uid="uid://cqmpkyfivckbc" path="res://scenes/v01_game_object_and_scripts/mat_second_pointer.tres" id="1_qou84"]
+
+[node name="SecondPointer" type="CSGBox3D"]
+size = Vector3(0.01, 0.06, 0.9)
+material = ExtResource("1_qou84")
