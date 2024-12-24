@@ -1,13 +1,13 @@
 ﻿@tool
-extends Node3D
-
 class_name VisualFunction
+extends Node3D
 
 @export_enum("wave", "sin", "multi_wave", "ripple") var func_name: String
 @export var data_range: Vector3
 @export var shader: Shader
 
 var parsed: Callable
+
 
 func _ready() -> void:
 	for child in get_children():

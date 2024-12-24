@@ -19,12 +19,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
 
 [node name="CSGCylinder3D" parent="." instance=ExtResource("1_ouusj")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1.50146, -1.31189, 0)
+real_time = true
+smoothly = false
 
 [node name="CSGCylinder3D2" parent="." instance=ExtResource("1_ouusj")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.41736, -1.37964, 0)
-_realTime = false
-_smoothly = false
+real_time = true
+smoothly = true
 
 [node name="CSGCylinder3D3" parent="." instance=ExtResource("1_ouusj")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1.47515, 1.22424, 0)
-_smoothly = false
+real_time = true
+smoothly = true
