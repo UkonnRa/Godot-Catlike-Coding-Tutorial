@@ -5,6 +5,6 @@
 
 [node name="VisualFunction" type="Node3D"]
 script = ExtResource("1_r1tf8")
-func_name = "pow2"
-data_range = Vector3(-10, 10, 0.5)
+func_name = "wave"
+data_range = Vector3(-1, 1, 0.05)
 shader = ExtResource("2_mfgcn")
