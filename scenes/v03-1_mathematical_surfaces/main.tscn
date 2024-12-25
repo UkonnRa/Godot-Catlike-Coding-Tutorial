@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://nhq47ted1ab1"]
+
+[ext_resource type="PackedScene" uid="uid://rpr2bvdw2jp8" path="res://scenes/v03-1_mathematical_surfaces/visual_function.tscn" id="1_r6a63"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.34062)
+
+[node name="VisualFunction" parent="." instance=ExtResource("1_r6a63")]
+
+[node name="VisualFunction2" parent="." instance=ExtResource("1_r6a63")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.40944, 0, 0)
+func_name = "sphere"
+
+[node name="VisualFunction3" parent="." instance=ExtResource("1_r6a63")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.02989, 0, 0)
+func_name = "sphere_verticle_band"
+resolution = 81
+
+[node name="VisualFunction4" parent="." instance=ExtResource("1_r6a63")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.02989, 3.59534, 0)
+func_name = "sphere_horizontal_band"
+resolution = 81
+
+[node name="VisualFunction5" parent="." instance=ExtResource("1_r6a63")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00150585, 3.59534, 0)
+func_name = "sphere_twisted_band"
