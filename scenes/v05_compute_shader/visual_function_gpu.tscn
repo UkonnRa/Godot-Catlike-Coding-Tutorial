@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpheudytkuer1"]
+
+[ext_resource type="Script" path="res://scenes/v05_compute_shader/visual_function_v05.gd" id="1_ufonb"]
+[ext_resource type="Shader" uid="uid://x5kqsv2e4wir" path="res://scenes/v02_building_a_math/shader_point_visual.tres" id="2_ex74q"]
+
+[node name="VisualFunctionGpu" type="Node3D"]
+script = ExtResource("1_ufonb")
+func_index = 7
+shader = ExtResource("2_ex74q")
+resolution = 250
