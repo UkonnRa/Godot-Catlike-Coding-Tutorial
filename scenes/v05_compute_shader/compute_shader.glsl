@@ -5,12 +5,13 @@
 
 layout(local_size_x = 32, local_size_y = 1, local_size_z = 1) in;
 
-layout(set = 0, binding = 0) restrict buffer DataBuffer {
-    float resolution;
-    float time;
-    float funcIndex;
-    float position[];
-} data_buffer;
+layout(rgba32f, set = 0, binding = 0) uniform restrict image2D output_image;
+
+layout(push_constant, std430) uniform Params {
+	float resolution;
+	float time;
+	float funcIndex;
+} params;
 
 vec3 wave(float u, float v, float t) {
     return vec3(u, sin(PI * (u + v + t)), v);
@@ -65,8 +66,8 @@ vec3 torus(float u, float v, float t) {
 
 void main() {
     uint idx = gl_GlobalInvocationID.x;
-    uint resolution = uint(data_buffer.resolution);
-    float t = data_buffer.time;
+    uint resolution = uint(params.resolution);
+    float t = params.time;
     float step = 2.0 / resolution;
     uint x = idx / resolution;
     uint z = idx % resolution;
@@ -74,7 +75,7 @@ void main() {
     float v = (z + 0.5) * step - 1.0;
 
     vec3 position;
-    switch (uint(data_buffer.funcIndex)) {
+    switch (uint(params.funcIndex)) {
     case 0:
         position = wave(u, v, t);
         break;
@@ -110,7 +111,5 @@ void main() {
         break;
     }
 
-    data_buffer.position[3 * idx] = position.x;
-    data_buffer.position[3 * idx + 1] = position.y;
-    data_buffer.position[3 * idx + 2] = position.z;
+    imageStore(output_image, ivec2(x, z), vec4(position, 1.0));
 }

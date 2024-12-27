@@ -9,4 +9,5 @@
 script = ExtResource("1_ae0gp")
 
 [node name="VisualFunctionGpu" parent="." instance=ExtResource("1_itb3v")]
-func_index = 6
+func_index = 2
+resolution = 100

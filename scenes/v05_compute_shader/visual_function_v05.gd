@@ -37,8 +37,8 @@ func _process(delta: float) -> void:
 	var time := Time.get_ticks_msec() / 1000.0
 	var children := get_children()
 
-	var current_position = calculate(time, func_index)
-	var next_position = calculate(time, next_index)
+	var current_position := calculate(time, func_index)
+	var next_position    :=  calculate(time, next_index)
 	for idx in range(len(children)):
 		var child := children[idx]
 		if child is CSGBox3D:

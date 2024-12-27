@@ -1,61 +1,85 @@
 extends Node
 class_name ComputeShader
 
-@export_range(0, 250) var resolution: int = 10
+const MAX_IN_EDITOR_RESOLUTION: int = 100
 
-var buffer: RID
-var uniform_set: RID
+@export_range(0, 250) var resolution: int = MAX_IN_EDITOR_RESOLUTION
 
-@onready var rd := RenderingServer.create_local_rendering_device()
-@onready var shader_file := load("res://scenes/v05_compute_shader/compute_shader.glsl") as RDShaderFile
-@onready var shader_spirv := shader_file.get_spirv()
-@onready var _compute_shader := rd.shader_create_from_spirv(shader_spirv)
-@onready var x_group_size: int = ceil(resolution * resolution / 32.0)
+var rd: RenderingDevice
+var shader_file: RDShaderFile
+var shader_spirv: RDShaderSPIRV
+var _compute_shader: RID
+var pipeline: RID
+var texture: RID
+var uniform_Set: RID
 
-const ADDITIONAL_FLOATS := 3
+
+var x_group_size: int:
+	get:
+		return ceil(resolution * resolution / 32.0)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	_print_error()
+	if Engine.is_editor_hint():
+		resolution = min(resolution, MAX_IN_EDITOR_RESOLUTION)
+	
+	RenderingServer.call_on_render_thread(_initialize)
 
-	# Prepare our data. We use floats in the shader, so we need 32 bit.
-	var input := PackedFloat32Array()
-	input.resize(resolution * resolution * 3 + ADDITIONAL_FLOATS)
-	var input_bytes := input.to_byte_array()
+	# Create our textures to manage our wave.
+	var tf : RDTextureFormat = RDTextureFormat.new()
+	tf.format = RenderingDevice.DATA_FORMAT_R32G32B32A32_SFLOAT
+	tf.texture_type = RenderingDevice.TEXTURE_TYPE_2D
+	tf.width = resolution
+	tf.height = resolution
+	tf.depth = 1
+	tf.array_layers = 1
+	tf.mipmaps = 1
+	tf.usage_bits = RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT + RenderingDevice.TEXTURE_USAGE_COLOR_ATTACHMENT_BIT + RenderingDevice.TEXTURE_USAGE_STORAGE_BIT + RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT + RenderingDevice.TEXTURE_USAGE_CAN_COPY_TO_BIT + RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
 
-	# Create a storage buffer that can hold our float values.
-	# Each float has 4 bytes (32 bit) so 10 x 4 = 40 bytes
-	buffer = rd.storage_buffer_create(input_bytes.size(), input_bytes)
-	# Create a uniform to assign the buffer to the rendering device
+	texture = rd.texture_create(tf, RDTextureView.new(), [])
+	rd.texture_clear(texture, Color(0, 0, 0, 0), 0, 1, 0, 1)
+	
 	var uniform := RDUniform.new()
-	uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
-	uniform.binding = 0  # this needs to match the "binding" in our shader file
-	uniform.add_id(buffer)
-	# the last parameter (the 0) needs to match the "set" in our shader file
-	uniform_set = rd.uniform_set_create([uniform], _compute_shader, 0)
-	print("Input: {size} == {values} ".format({"size": len(input), "values": input.slice(0, 10)}))
+	uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
+	uniform.binding = 0
+	uniform.add_id(texture)
+	# Even though we're using 3 sets, they are identical, so we're kinda cheating.
+	uniform_Set = rd.uniform_set_create([uniform], _compute_shader, 0)
 
 
+func _initialize() -> void:
+	rd = RenderingServer.create_local_rendering_device()
+	shader_file = load("res://scenes/v05_compute_shader/compute_shader.glsl") as RDShaderFile
+	shader_spirv = shader_file.get_spirv()
+	_compute_shader = rd.shader_create_from_spirv(shader_spirv)
+	pipeline = rd.compute_pipeline_create(_compute_shader)
+	_print_error()
+	
+	
 func calculate(time: float, func_index: int) -> PackedFloat32Array:
-	var now := Time.get_ticks_msec()
-	var new_bytes := PackedFloat32Array([float(resolution), time, func_index]).to_byte_array()
-	rd.buffer_update(buffer, 0, new_bytes.size(), new_bytes)
-	_compute()
-	# Read back the data from the buffer
-	var output_bytes := rd.buffer_get_data(buffer)
-	var output := output_bytes.to_float32_array().slice(ADDITIONAL_FLOATS)
+#	var now := Time.get_ticks_msec()
+	_compute(time, func_index)
+	var texture_image := rd.texture_get_data(texture, 0).to_float32_array()
+	var filtered_texture := PackedFloat32Array()
+	for i in len(texture_image) / 4:
+		filtered_texture.push_back(texture_image[4 * i])
+		filtered_texture.push_back(texture_image[4 * i + 1])
+		filtered_texture.push_back(texture_image[4 * i + 2])
+	print("Output: {size} == {values} ".format({"size": len(filtered_texture), "values": filtered_texture.slice(0, 30)}))
 #	print("Calculate: {millis} ms".format({ "millis": Time.get_ticks_msec() - now }))
-#	print("Output: {size} == {values} ".format({"size": len(output), "values": output.slice(0, 10)}))
-	return output
+	return filtered_texture
 
 
-func _compute():
-	var now := Time.get_ticks_msec()
+func _compute(time: float, func_index: int): 
+#	var now := Time.get_ticks_msec()
+	# The final 0.0 is for padding
+	var push_constant := PackedFloat32Array([float(resolution), time, float(func_index), 0.0]).to_byte_array()
 	# Create a compute pipeline
-	var pipeline := rd.compute_pipeline_create(_compute_shader)
 	var compute_list := rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(compute_list, pipeline)
-	rd.compute_list_bind_uniform_set(compute_list, uniform_set, 0)
+	rd.compute_list_bind_uniform_set(compute_list, uniform_Set, 0)
+	rd.compute_list_set_push_constant(compute_list, push_constant, push_constant.size())
 	rd.compute_list_dispatch(compute_list, x_group_size, 1, 1)
 	rd.compute_list_end()
 
