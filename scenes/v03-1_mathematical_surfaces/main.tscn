@@ -10,4 +10,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.34062)
 script = ExtResource("1_asdru")
 
 [node name="VisualFunction" parent="." instance=ExtResource("1_r6a63")]
-func_index = 5
+func_index = 6

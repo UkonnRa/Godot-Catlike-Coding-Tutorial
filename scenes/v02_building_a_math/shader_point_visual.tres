@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=5 format=3 uid="uid://x5kqsv2e4wir"]
+[gd_resource type="VisualShader" load_steps=6 format=3 uid="uid://x5kqsv2e4wir"]
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_q3cvs"]
 input_name = "node_position_world"
@@ -12,6 +12,10 @@ default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(0.5, 0.5, 0.5)]
 
 [sub_resource type="VisualShaderNodeVectorFunc" id="VisualShaderNodeVectorFunc_pubi3"]
 function = 1
+
+[sub_resource type="VisualShaderNodeUIntOp" id="VisualShaderNodeUIntOp_5d0pv"]
+default_input_values = [0, 2, 1, 0]
+operator = 3
 
 [resource]
 code = "shader_type spatial;
@@ -55,4 +59,6 @@ nodes/fragment/16/node = SubResource("VisualShaderNodeVectorOp_mxlov")
 nodes/fragment/16/position = Vector2(840, 240)
 nodes/fragment/17/node = SubResource("VisualShaderNodeVectorFunc_pubi3")
 nodes/fragment/17/position = Vector2(1040, 280)
+nodes/fragment/18/node = SubResource("VisualShaderNodeUIntOp_5d0pv")
+nodes/fragment/18/position = Vector2(360, 440)
 nodes/fragment/connections = PackedInt32Array(14, 0, 15, 0, 15, 0, 16, 0, 16, 0, 17, 0, 17, 0, 0, 0)

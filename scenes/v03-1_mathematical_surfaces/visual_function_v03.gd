@@ -3,7 +3,7 @@ class_name VisualFunctionV03
 extends Node3D
 
 @export var func_index: int = 0
-@export var resolution: int = 40
+@export var resolution: int = 10
 @export var shader: Shader
 @export var duration_interval: float = 2
 @export var lerp_interval: float = 1

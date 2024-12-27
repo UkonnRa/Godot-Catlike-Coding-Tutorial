@@ -1,17 +1,16 @@
 extends Node
 class_name ComputeShader
 
-const MAX_IN_EDITOR_RESOLUTION: int = 100
+const MAX_IN_EDITOR_RESOLUTION: int = 20
 
-@export_range(0, 250) var resolution: int = MAX_IN_EDITOR_RESOLUTION
-
+var resolution: int = 377
 var rd: RenderingDevice
 var shader_file: RDShaderFile
 var shader_spirv: RDShaderSPIRV
 var _compute_shader: RID
 var pipeline: RID
 var texture: RID
-var uniform_Set: RID
+var uniform_set: RID
 
 
 var x_group_size: int:
@@ -23,9 +22,17 @@ var x_group_size: int:
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		resolution = min(resolution, MAX_IN_EDITOR_RESOLUTION)
-	
-	RenderingServer.call_on_render_thread(_initialize)
+	_initialize()
 
+
+func _initialize() -> void:
+	rd = RenderingServer.get_rendering_device()
+	shader_file = load("res://scenes/v05_compute_shader/compute_shader.glsl") as RDShaderFile
+	shader_spirv = shader_file.get_spirv()
+	_compute_shader = rd.shader_create_from_spirv(shader_spirv)
+	pipeline = rd.compute_pipeline_create(_compute_shader)
+	_print_error()
+	
 	# Create our textures to manage our wave.
 	var tf : RDTextureFormat = RDTextureFormat.new()
 	tf.format = RenderingDevice.DATA_FORMAT_R32G32B32A32_SFLOAT
@@ -37,48 +44,25 @@ func _ready() -> void:
 	tf.mipmaps = 1
 	tf.usage_bits = RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT + RenderingDevice.TEXTURE_USAGE_COLOR_ATTACHMENT_BIT + RenderingDevice.TEXTURE_USAGE_STORAGE_BIT + RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT + RenderingDevice.TEXTURE_USAGE_CAN_COPY_TO_BIT + RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
 
-	texture = rd.texture_create(tf, RDTextureView.new(), [])
-	rd.texture_clear(texture, Color(0, 0, 0, 0), 0, 1, 0, 1)
-	
+	texture = rd.texture_create(tf, RDTextureView.new())
+	rd.texture_clear(texture, Color(1, 0, 0, 1), 0, 1, 0, 1)
+
 	var uniform := RDUniform.new()
 	uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
 	uniform.binding = 0
 	uniform.add_id(texture)
 	# Even though we're using 3 sets, they are identical, so we're kinda cheating.
-	uniform_Set = rd.uniform_set_create([uniform], _compute_shader, 0)
-
-
-func _initialize() -> void:
-	rd = RenderingServer.create_local_rendering_device()
-	shader_file = load("res://scenes/v05_compute_shader/compute_shader.glsl") as RDShaderFile
-	shader_spirv = shader_file.get_spirv()
-	_compute_shader = rd.shader_create_from_spirv(shader_spirv)
-	pipeline = rd.compute_pipeline_create(_compute_shader)
-	_print_error()
-	
-	
-func calculate(time: float, func_index: int) -> PackedFloat32Array:
-#	var now := Time.get_ticks_msec()
-	_compute(time, func_index)
-	var texture_image := rd.texture_get_data(texture, 0).to_float32_array()
-	var filtered_texture := PackedFloat32Array()
-	for i in len(texture_image) / 4:
-		filtered_texture.push_back(texture_image[4 * i])
-		filtered_texture.push_back(texture_image[4 * i + 1])
-		filtered_texture.push_back(texture_image[4 * i + 2])
-	print("Output: {size} == {values} ".format({"size": len(filtered_texture), "values": filtered_texture.slice(0, 30)}))
-#	print("Calculate: {millis} ms".format({ "millis": Time.get_ticks_msec() - now }))
-	return filtered_texture
+	uniform_set = rd.uniform_set_create([uniform], _compute_shader, 0)
 
 
 func _compute(time: float, func_index: int): 
-#	var now := Time.get_ticks_msec()
+	var now := Time.get_ticks_msec()
 	# The final 0.0 is for padding
 	var push_constant := PackedFloat32Array([float(resolution), time, float(func_index), 0.0]).to_byte_array()
 	# Create a compute pipeline
 	var compute_list := rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(compute_list, pipeline)
-	rd.compute_list_bind_uniform_set(compute_list, uniform_Set, 0)
+	rd.compute_list_bind_uniform_set(compute_list, uniform_set, 0)
 	rd.compute_list_set_push_constant(compute_list, push_constant, push_constant.size())
 	rd.compute_list_dispatch(compute_list, x_group_size, 1, 1)
 	rd.compute_list_end()
@@ -87,7 +71,7 @@ func _compute(time: float, func_index: int):
 	rd.submit()
 	rd.sync()
 	_print_error()
-#	print("GPU: {millis} ms".format({ "millis": Time.get_ticks_msec() - now }))
+	print("GPU: {millis} ms".format({ "millis": Time.get_ticks_msec() - now }))
 
 
 func _print_error():
