@@ -1,9 +1,9 @@
-extends Node
+extends Node3D
 class_name ComputeShader
 
-const MAX_IN_EDITOR_RESOLUTION: int = 20
+const MAX_IN_EDITOR_RESOLUTION: int = 1000
 
-var resolution: int = 377
+var resolution: int = 1000
 var rd: RenderingDevice
 var shader_file: RDShaderFile
 var shader_spirv: RDShaderSPIRV
@@ -56,7 +56,7 @@ func _initialize() -> void:
 
 
 func _compute(time: float, func_index: int): 
-	var now := Time.get_ticks_msec()
+#	var now := Time.get_ticks_msec()
 	# The final 0.0 is for padding
 	var push_constant := PackedFloat32Array([float(resolution), time, float(func_index), 0.0]).to_byte_array()
 	# Create a compute pipeline
@@ -71,7 +71,7 @@ func _compute(time: float, func_index: int):
 	rd.submit()
 	rd.sync()
 	_print_error()
-	print("GPU: {millis} ms".format({ "millis": Time.get_ticks_msec() - now }))
+#	print("GPU: {millis} ms".format({ "millis": Time.get_ticks_msec() - now }))
 
 
 func _print_error():

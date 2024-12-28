@@ -1,19 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://bpheudytkuer1"]
+[gd_scene load_steps=8 format=3 uid="uid://bpheudytkuer1"]
 
 [ext_resource type="Script" path="res://scenes/v05_compute_shader/visual_function_v05.gd" id="1_ufonb"]
-[ext_resource type="Shader" path="res://scenes/v05_compute_shader/visual_function.gdshader" id="2_ig1tu"]
+[ext_resource type="Shader" uid="uid://dnodonm0nb33y" path="res://scenes/v05_compute_shader/shader_particle.tres" id="2_2n5hd"]
+[ext_resource type="Shader" path="res://scenes/v05_compute_shader/particle_shader.gdshader" id="3_jblwg"]
 
-[sub_resource type="Texture2DRD" id="Texture2DRD_ime7v"]
+[sub_resource type="Texture2DRD" id="Texture2DRD_y62ne"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5oq0v"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tnrp5"]
+shader = ExtResource("3_jblwg")
+shader_parameter/resolution = 1500
+shader_parameter/texture_position = SubResource("Texture2DRD_y62ne")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_reeko"]
 render_priority = 0
-shader = ExtResource("2_ig1tu")
-shader_parameter/idx = null
-shader_parameter/resolution = 10
-shader_parameter/texture_position = SubResource("Texture2DRD_ime7v")
+shader = ExtResource("2_2n5hd")
+
+[sub_resource type="BoxMesh" id="BoxMesh_3uwbp"]
+material = SubResource("ShaderMaterial_reeko")
+size = Vector3(0.00133333, 0.00133333, 0.00133333)
 
 [node name="VisualFunctionGpu" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.000742704)
 script = ExtResource("1_ufonb")
-func_index = 2
-material = SubResource("ShaderMaterial_5oq0v")
+func_index = 8
+shader_point = ExtResource("2_2n5hd")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 2250000
+visibility_aabb = AABB(-1, -1, -1, 2, 2, 2)
+local_coords = true
+process_material = SubResource("ShaderMaterial_tnrp5")
+draw_pass_1 = SubResource("BoxMesh_3uwbp")

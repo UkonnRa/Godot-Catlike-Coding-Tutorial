@@ -1,7 +1,7 @@
-[gd_resource type="VisualShader" load_steps=5 format=3 uid="uid://x5kqsv2e4wir"]
+[gd_resource type="VisualShader" load_steps=5 format=3 uid="uid://dnodonm0nb33y"]
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_q3cvs"]
-input_name = "node_position_world"
+input_name = "vertex"
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_2wuvb"]
 default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(0.5, 0.5, 0.5)]
@@ -22,7 +22,7 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_s
 
 void fragment() {
 // Input:14
-	vec3 n_out14p0 = NODE_POSITION_WORLD;
+	vec3 n_out14p0 = VERTEX;
 
 
 // VectorOp:15
@@ -48,7 +48,7 @@ void fragment() {
 nodes/vertex/0/position = Vector2(120, 440)
 nodes/fragment/0/position = Vector2(1260, 320)
 nodes/fragment/14/node = SubResource("VisualShaderNodeInput_q3cvs")
-nodes/fragment/14/position = Vector2(240, 300)
+nodes/fragment/14/position = Vector2(280, 320)
 nodes/fragment/15/node = SubResource("VisualShaderNodeVectorOp_2wuvb")
 nodes/fragment/15/position = Vector2(600, 240)
 nodes/fragment/16/node = SubResource("VisualShaderNodeVectorOp_mxlov")
