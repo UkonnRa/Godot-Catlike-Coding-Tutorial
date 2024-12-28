@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmtvd3u238u78"]
+
+[ext_resource type="PackedScene" uid="uid://bsupwy8k1djx0" path="res://scenes/v06_fractal/fractal.tscn" id="1_mmnlu"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.0554)
+
+[node name="MeshInstance3D" parent="." instance=ExtResource("1_mmnlu")]

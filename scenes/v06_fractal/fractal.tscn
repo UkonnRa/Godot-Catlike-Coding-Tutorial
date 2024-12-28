@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsupwy8k1djx0"]
+
+[ext_resource type="Script" path="res://scenes/v06_fractal/fractal.gd" id="1_1i2kg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8tdg"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_i8x3w"]
+material = SubResource("StandardMaterial3D_f8tdg")
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_i8x3w")
+script = ExtResource("1_1i2kg")
+max_depth = 4
