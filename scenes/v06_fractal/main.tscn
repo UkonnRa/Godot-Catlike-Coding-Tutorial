@@ -1,10 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmtvd3u238u78"]
+[gd_scene load_steps=4 format=3 uid="uid://c3x27not8t52p"]
 
-[ext_resource type="PackedScene" uid="uid://bsupwy8k1djx0" path="res://scenes/v06_fractal/fractal.tscn" id="1_mmnlu"]
+[ext_resource type="Script" path="res://scenes/camera_manager.gd" id="1_uo5qj"]
+[ext_resource type="PackedScene" uid="uid://b10tp3q8eev3f" path="res://scenes/v06_fractal/fractal_flat.tscn" id="2_tv00m"]
+[ext_resource type="PackedScene" uid="uid://bsupwy8k1djx0" path="res://scenes/v06_fractal/fractal.tscn" id="3_y4pji"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.0554)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 
-[node name="MeshInstance3D" parent="." instance=ExtResource("1_mmnlu")]
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+script = ExtResource("1_uo5qj")
+
+[node name="FractalFlat" parent="." instance=ExtResource("2_tv00m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.91917, 0, 0)
+
+[node name="MeshInstance3D" parent="." instance=ExtResource("3_y4pji")]
+transform = Transform3D(-0.636729, 0, -0.770032, 0, 1, 0, 0.770032, 0, -0.636729, 2.1769, 0, 0)

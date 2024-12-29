@@ -1,4 +1,5 @@
-﻿class_name FuncUtils
+class_name FuncUtils
+
 
 static func wave(x: float, z: float, t: float) -> float:
 	return sin(PI * (x + z + t))

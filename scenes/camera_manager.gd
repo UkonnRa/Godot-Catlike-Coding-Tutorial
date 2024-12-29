@@ -9,26 +9,27 @@ const MOVEMENT_DOWN: StringName = "movement_down"
 
 @export var speed: float = 1.0
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var dir_forward := 0.0
 	var dir_up := 0.0
 	var dir_right := 0.0
-	
+
 	if Input.is_action_pressed(MOVEMENT_FORWARD):
 		dir_forward = 1.0
 	elif Input.is_action_pressed(MOVEMENT_BACKWARD):
 		dir_forward = -1.0
-	
+
 	if Input.is_action_pressed(MOVEMENT_UP):
 		dir_up = 1.0
 	elif Input.is_action_pressed(MOVEMENT_DOWN):
 		dir_up = -1.0
-	
+
 	if Input.is_action_pressed(MOVEMENT_RIGHT):
 		dir_right = 1.0
 	elif Input.is_action_pressed(MOVEMENT_LEFT):
 		dir_right = -1.0
-	
+
 	var dir := Vector3(dir_right, dir_up, -dir_forward).normalized()
 	position += speed * delta * (basis * dir)

@@ -9,8 +9,19 @@ extends ComputeShader
 
 var gpu_particle: GPUParticles3D
 
-var func_list: Array[String] = ["wave", "multi_wave", "ripple", "bun", "sphere", "sphere_verticle_band", "sphere_horizontal_band", "sphere_twisted_band", "torus"]
+var func_list: Array[String] = [
+	"wave",
+	"multi_wave",
+	"ripple",
+	"bun",
+	"sphere",
+	"sphere_verticle_band",
+	"sphere_horizontal_band",
+	"sphere_twisted_band",
+	"torus"
+]
 var duration: float
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

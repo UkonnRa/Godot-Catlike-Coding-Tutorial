@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://b10tp3q8eev3f"]
+
+[ext_resource type="Script" path="res://scenes/v06_fractal/fractal_flat.gd" id="1_l2p8g"]
+[ext_resource type="Shader" path="res://scenes/v06_fractal/fractal_flat.gdshader" id="2_wddh1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_flqj4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u585u"]
+render_priority = 0
+shader = ExtResource("2_wddh1")
+shader_parameter/depth = null
+
+[node name="FractalFlat" type="Node3D"]
+script = ExtResource("1_l2p8g")
+depth = 4
+mesh = SubResource("BoxMesh_flqj4")
+material = SubResource("ShaderMaterial_u585u")

@@ -1,4 +1,4 @@
-﻿@tool
+@tool
 class_name VisualFunction
 extends Node3D
 
@@ -17,10 +17,10 @@ func _ready() -> void:
 
 	var x := data_range.x
 	while x < data_range.y:
-		var step: float =  data_range.z
-		var z           := data_range.x
+		var step: float = data_range.z
+		var z := data_range.x
 		while z < data_range.y:
-			var node     := CSGBox3D.new()
+			var node := CSGBox3D.new()
 			node.size = Vector3(step, step, step)
 			var material := ShaderMaterial.new()
 			material.shader = shader

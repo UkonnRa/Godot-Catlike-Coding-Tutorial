@@ -1,5 +1,5 @@
-extends Node3D
 class_name ComputeShader
+extends Node3D
 
 const MAX_IN_EDITOR_RESOLUTION: int = 1000
 
@@ -7,15 +7,15 @@ var resolution: int = 1000
 var rd: RenderingDevice
 var shader_file: RDShaderFile
 var shader_spirv: RDShaderSPIRV
-var _compute_shader: RID
 var pipeline: RID
 var texture: RID
 var uniform_set: RID
 
-
 var x_group_size: int:
 	get:
 		return ceil(resolution * resolution / 32.0)
+
+var _compute_shader: RID
 
 
 # Called when the node enters the scene tree for the first time.
@@ -32,9 +32,9 @@ func _initialize() -> void:
 	_compute_shader = rd.shader_create_from_spirv(shader_spirv)
 	pipeline = rd.compute_pipeline_create(_compute_shader)
 	_print_error()
-	
+
 	# Create our textures to manage our wave.
-	var tf : RDTextureFormat = RDTextureFormat.new()
+	var tf: RDTextureFormat = RDTextureFormat.new()
 	tf.format = RenderingDevice.DATA_FORMAT_R32G32B32A32_SFLOAT
 	tf.texture_type = RenderingDevice.TEXTURE_TYPE_2D
 	tf.width = resolution
@@ -42,7 +42,14 @@ func _initialize() -> void:
 	tf.depth = 1
 	tf.array_layers = 1
 	tf.mipmaps = 1
-	tf.usage_bits = RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT + RenderingDevice.TEXTURE_USAGE_COLOR_ATTACHMENT_BIT + RenderingDevice.TEXTURE_USAGE_STORAGE_BIT + RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT + RenderingDevice.TEXTURE_USAGE_CAN_COPY_TO_BIT + RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
+	tf.usage_bits = (
+		RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT
+		+ RenderingDevice.TEXTURE_USAGE_COLOR_ATTACHMENT_BIT
+		+ RenderingDevice.TEXTURE_USAGE_STORAGE_BIT
+		+ RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT
+		+ RenderingDevice.TEXTURE_USAGE_CAN_COPY_TO_BIT
+		+ RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
+	)
 
 	texture = rd.texture_create(tf, RDTextureView.new())
 	rd.texture_clear(texture, Color(1, 0, 0, 1), 0, 1, 0, 1)
@@ -55,10 +62,12 @@ func _initialize() -> void:
 	uniform_set = rd.uniform_set_create([uniform], _compute_shader, 0)
 
 
-func _compute(time: float, func_index: int): 
+func _compute(time: float, func_index: int):
 #	var now := Time.get_ticks_msec()
 	# The final 0.0 is for padding
-	var push_constant := PackedFloat32Array([float(resolution), time, float(func_index), 0.0]).to_byte_array()
+	var push_constant := (
+		PackedFloat32Array([float(resolution), time, float(func_index), 0.0]).to_byte_array()
+	)
 	# Create a compute pipeline
 	var compute_list := rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(compute_list, pipeline)
@@ -71,6 +80,8 @@ func _compute(time: float, func_index: int):
 	rd.submit()
 	rd.sync()
 	_print_error()
+
+
 #	print("GPU: {millis} ms".format({ "millis": Time.get_ticks_msec() - now }))
 
 

@@ -2,12 +2,12 @@
 class_name Clock
 extends CSGCylinder3D
 
-const CLICK_COUNT_PREFIX        := "ClockCount"
-const NAME_SECOND_POINTER       := "SecondPointer"
-const NAME_MINUTE_POINTER       := "MinutePointer"
-const NAME_HOUR_POINTER         := "HourPointer"
+const CLICK_COUNT_PREFIX := "ClockCount"
+const NAME_SECOND_POINTER := "SecondPointer"
+const NAME_MINUTE_POINTER := "MinutePointer"
+const NAME_HOUR_POINTER := "HourPointer"
 const COLOR_MINUTE_HOUR_POINTER := Color(0, 0, 0)
-const COLOR_SECOND_POINTER      := Color(1, 0, 0)
+const COLOR_SECOND_POINTER := Color(1, 0, 0)
 @export var real_time := true
 @export var smoothly := true
 @export var material_counter: StandardMaterial3D
@@ -21,7 +21,7 @@ var hour_pointer: CSGBox3D
 func _ready():
 	for node in get_children():
 		if node is CSGBox3D and node.get_name().begins_with(CLICK_COUNT_PREFIX):
-			var idx: int             = int(node.get_name().replace(CLICK_COUNT_PREFIX, "")) % 12
+			var idx: int = int(node.get_name().replace(CLICK_COUNT_PREFIX, "")) % 12
 			var duplicated: Resource = material_counter.duplicate()
 			if duplicated is StandardMaterial3D:
 				duplicated.albedo_color = Color.SLATE_GRAY if (idx % 3 == 0) else Color.DARK_GRAY
@@ -75,7 +75,7 @@ func _process(delta):
 
 		var seconds: float = now["second"] + subsec
 		var minutes: float = now["minute"] + seconds / 60
-		var hours: float   = now["hour"] + minutes / 60
+		var hours: float = now["hour"] + minutes / 60
 
 		second_pointer.rotate(-second_pointer.transform.basis.y, seconds / 60.0 * TAU)
 		minute_pointer.rotate(-minute_pointer.transform.basis.y, minutes / 60.0 * TAU)

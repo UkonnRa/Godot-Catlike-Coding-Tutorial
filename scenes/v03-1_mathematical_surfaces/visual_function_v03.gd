@@ -8,10 +8,21 @@ extends Node3D
 @export var duration_interval: float = 2
 @export var lerp_interval: float = 1
 
-var func_list: Array[String] = ["wave", "multi_wave", "ripple", "bun", "sphere", "sphere_verticle_band", "sphere_horizontal_band", "sphere_twisted_band", "torus"]
+var func_list: Array[String] = [
+	"wave",
+	"multi_wave",
+	"ripple",
+	"bun",
+	"sphere",
+	"sphere_verticle_band",
+	"sphere_horizontal_band",
+	"sphere_twisted_band",
+	"torus"
+]
 
 var parsed: Callable
 var duration: float
+
 
 func _ready() -> void:
 	for child in get_children():
@@ -21,12 +32,13 @@ func _ready() -> void:
 
 	var step := 2.0 / resolution
 	for idx in range(resolution * resolution):
-		var node     := CSGBox3D.new()
+		var node := CSGBox3D.new()
 		node.size = Vector3(step, step, step)
 		var material := ShaderMaterial.new()
 		material.shader = shader
 		node.material = material
 		add_child(node)
+
 
 func _process(delta: float) -> void:
 	duration += delta

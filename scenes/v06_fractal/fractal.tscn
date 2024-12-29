@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" path="res://scenes/v06_fractal/fractal.gd" id="1_1i2kg"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8tdg"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0tqqp"]
 albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_i8x3w"]
-material = SubResource("StandardMaterial3D_f8tdg")
+[sub_resource type="SphereMesh" id="SphereMesh_opgsn"]
+material = SubResource("StandardMaterial3D_0tqqp")
 
 [node name="MeshInstance3D" type="MeshInstance3D"]
-mesh = SubResource("BoxMesh_i8x3w")
+transform = Transform3D(-0.391129, 0, 0.919413, 0, 1, 0, -0.919413, 0, -0.391129, 0, 0, 0)
+mesh = SubResource("SphereMesh_opgsn")
 script = ExtResource("1_1i2kg")
 max_depth = 4
