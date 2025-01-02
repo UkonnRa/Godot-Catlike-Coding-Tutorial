@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://lulqmxlgr4m4"
+path="res://.godot/imported/compute_shader.glsl-491b1870943e902bd7893873f97d9e15.res"
+
+[deps]
+
+source_file="res://scenes/v06_fractal/compute_shader.glsl"
+dest_files=["res://.godot/imported/compute_shader.glsl-491b1870943e902bd7893873f97d9e15.res"]
+
+[params]
+

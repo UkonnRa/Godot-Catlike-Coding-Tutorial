@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bevv375hdrygs"]
+
+[ext_resource type="Script" path="res://scenes/v06_fractal/compute_shader.gd" id="1_h615n"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_h615n")
