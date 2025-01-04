@@ -24,9 +24,16 @@ layout(set = 0, binding = 0, std430) buffer DataBuffer {
     FractalData data[];
 };
 
+layout(rgba32f, set = 1, binding = 0) uniform restrict writeonly image2D output_position;
+
+layout(rgba32f, set = 2, binding = 0) uniform restrict writeonly image2D output_rotation;
+
+layout(rgba32f, set = 3, binding = 0) uniform restrict writeonly image2D output_data_info;
+
 layout(push_constant, std430) uniform Params {
     float depth;
 	float delta;
+    float total;
 } params;
 
 float get_scale(uint depth) {
@@ -89,6 +96,8 @@ vec3[][2] DIRECTION_ROTATIONS = {
 void main() {
     uint depth = uint(params.depth);
     float delta_angle = -PI / 8.0 * params.delta;
+    uint idx = convert_local_to_global(gl_GlobalInvocationID.x, depth);
+    float scale = get_scale(depth);
 
     if (depth == 0) {
         data[0].depth = depth;
@@ -98,28 +107,30 @@ void main() {
 
         data[0].spin_angle += delta_angle;
         data[0].world_quaternion = quanternion_from_euler(vec3(0, data[0].spin_angle, 0));
+    } else {
+        vec3[] dir_rot = DIRECTION_ROTATIONS[gl_GlobalInvocationID.x % 5];
 
-        return;
+        uint parent_local_idx = uint(round(gl_GlobalInvocationID.x / CHILD_COUNT));
+        uint parent_idx = convert_local_to_global(parent_local_idx, depth - 1);
+        FractalData parent = data[parent_idx];
+
+        data[idx].depth = depth;
+        data[idx].idx = idx;
+        data[idx].parent_idx = parent_idx;
+
+        data[idx].spin_angle += delta_angle;
+        data[idx].world_quaternion = quanternion_mul_euler(
+            quanternion_mul_euler(parent.world_quaternion, dir_rot[1]),
+            vec3(0, data[idx].spin_angle, 0)
+        );
+        
+        data[idx].position = parent.position + quanternion_mul(
+            parent.world_quaternion,
+            dir_rot[0]
+        ) * 1.5 * scale;
     }
-    
-    vec3[] dir_rot = DIRECTION_ROTATIONS[gl_GlobalInvocationID.x % 5];
-    uint idx = convert_local_to_global(gl_GlobalInvocationID.x, depth);
 
-    uint parent_local_idx = uint(round(gl_GlobalInvocationID.x / CHILD_COUNT));
-    uint parent_idx = convert_local_to_global(parent_local_idx, depth - 1);
-    FractalData parent = data[parent_idx];
-
-    data[idx].depth = depth;
-    data[idx].idx = idx;
-    data[idx].parent_idx = parent_idx;
-
-    data[idx].spin_angle += delta_angle;
-    data[idx].world_quaternion = quanternion_mul_euler(
-        quanternion_mul_euler(parent.world_quaternion, dir_rot[1]),
-        vec3(0, data[idx].spin_angle, 0)
-    );
-    data[idx].position = parent.position + quanternion_mul(
-        parent.world_quaternion,
-        dir_rot[0]
-    ) * 1.5 * get_scale(depth);
+    imageStore(output_position, ivec2(idx, 0), vec4(data[idx].position, 0));
+    imageStore(output_rotation, ivec2(idx, 0), data[idx].world_quaternion);
+    imageStore(output_data_info, ivec2(idx, 0), vec4(idx, data[idx].parent_idx, data[idx].depth, 0));
 }

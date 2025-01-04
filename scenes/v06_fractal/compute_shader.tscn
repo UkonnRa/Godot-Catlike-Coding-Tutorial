@@ -1,6 +1,36 @@
-[gd_scene load_steps=2 format=3 uid="uid://bevv375hdrygs"]
+[gd_scene load_steps=10 format=3 uid="uid://bevv375hdrygs"]
 
 [ext_resource type="Script" path="res://scenes/v06_fractal/compute_shader.gd" id="1_h615n"]
+[ext_resource type="Shader" path="res://scenes/v06_fractal/particle_shader_item.gdshader" id="2_tn13p"]
+[ext_resource type="Shader" path="res://scenes/v06_fractal/particle_shader.gdshader" id="3_a8ysm"]
+
+[sub_resource type="Texture2DRD" id="Texture2DRD_b8jn6"]
+
+[sub_resource type="Texture2DRD" id="Texture2DRD_odi8p"]
+
+[sub_resource type="Texture2DRD" id="Texture2DRD_4itlc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2hfbe"]
+shader = ExtResource("3_a8ysm")
+shader_parameter/total = 97656
+shader_parameter/position = SubResource("Texture2DRD_odi8p")
+shader_parameter/rotation = SubResource("Texture2DRD_4itlc")
+shader_parameter/data_info = SubResource("Texture2DRD_b8jn6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ao5f"]
+render_priority = 0
+shader = ExtResource("2_tn13p")
+
+[sub_resource type="SphereMesh" id="SphereMesh_kxnih"]
+material = SubResource("ShaderMaterial_7ao5f")
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_h615n")
+shader_point = ExtResource("2_tn13p")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 1
+visibility_aabb = AABB(-2, -2, -2, 4, 4, 4)
+local_coords = true
+process_material = SubResource("ShaderMaterial_2hfbe")
+draw_pass_1 = SubResource("SphereMesh_kxnih")
