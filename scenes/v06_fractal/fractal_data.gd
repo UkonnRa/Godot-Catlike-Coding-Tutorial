@@ -1,6 +1,5 @@
 class_name FractalData
 
-
 var depth: int
 var idx: int
 var parent_idx: int
@@ -26,3 +25,10 @@ func _init(new_depth: int, new_idx: int, new_parent_idx: int) -> void:
 	position = Vector3.ZERO
 	world_quaternion = Quaternion.IDENTITY
 	spin_angle = 0
+
+
+func _to_string() -> String:
+	return (
+		"FractalData[depth = {0}, idx = {1}, parent_idx = {2}, position = {3}, world_quaternion = {4}, spin_angle = {5}]"
+		. format([depth, idx, parent_idx, position, world_quaternion, spin_angle])
+	)

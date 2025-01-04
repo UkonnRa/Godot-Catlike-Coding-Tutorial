@@ -1,4 +1,4 @@
- # Comparing with Fractal:
+# Comparing with Fractal:
 #   The starting up is quite faster, since no recursive overhead
 #     * Fractal[depth = 7] is not startable at all!
 #   The process workflow is equal, maybe the Fractal mode is faster, since Fractal is only rotating the root node itself
@@ -6,6 +6,8 @@
 @tool
 class_name FractalFlat
 extends Node3D
+
+static var ZERO: FractalData = FractalData.new(0, 0, -1)
 
 const COLORS := [
 	Color.RED,
@@ -100,7 +102,7 @@ func _gen_data(parent: FractalData = null) -> void:
 	if parent == null:
 		if depth <= 0:
 			return
-		var data := FractalData.new(0, 0, -1)
+		var data := ZERO
 		data_list[0] = [data]
 		matrices[0] = [FractalFlat._transform_trs(data.position, data.world_quaternion, 1)]
 		_gen_data(data)
